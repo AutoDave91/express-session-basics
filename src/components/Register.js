@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import store, { LOG_IN_USERNAME, LOG_IN_PASSWORD } from "../store";
 import { Link } from "react-router-dom";
-import axios from 'axios'
 
-class Login extends Component {
+class Register extends Component {
   constructor() {
     super();
     this.state = {
@@ -47,13 +46,14 @@ class Login extends Component {
       
     return (
       <div className="LOGIN">
-        <h3>Enter a name and submit to shop</h3>
+        <h3>Register a new account</h3>
         
         <span className="LOGIN-username-span">
 
         {/* Enter USERNAME */}
           <h3 id="h3-username">Username: </h3>
           <input
+            placeholder='Enter a unique username'
             type="text"
             className="login-input"
             onChange={this.handleUserName}
@@ -64,6 +64,7 @@ class Login extends Component {
          {/* Enter PASSWORD */}
           <h3 id="h3-username">Password: </h3>
           <input
+          placeholder='Enter a unique password'
             type="password"
             className="login-input"
             onChange={this.handlePassword}
@@ -78,4 +79,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Register;

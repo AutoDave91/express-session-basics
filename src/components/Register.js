@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import store, { LOG_IN_USERNAME, LOG_IN_PASSWORD } from "../store";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class Register extends Component {
   constructor() {
@@ -9,9 +10,10 @@ class Register extends Component {
       username: store.getState().username,
       password: store.getState().password
     };
-    this.sendLogin = this.sendLogin.bind(this)
+ 
     this.handlePassword = this.handlePassword.bind(this)
     this.handleUserName = this.handleUserName.bind(this)
+    this.sendRegistration = this.sendRegistration.bind(this)
   }
 
   componentDidMount() {
@@ -37,9 +39,8 @@ class Register extends Component {
     store.dispatch(action);
   }
 
-  sendLogin(){
-      console.log(this.state.username)
-      console.log(this.state.password)
+  sendRegistration(){
+     axios.post('/auth/chocolate/register', {username: this.state.username, password: this.state.password}).then(response => console.log(response.data))
   }
 
   render() {
@@ -71,8 +72,9 @@ class Register extends Component {
           />
         </span>
         {/* <h2> {this.state.login}</h2> */}
-        <Link to="/shop">
-          <button className="Login-button" onClick={this.sendLogin}> Shop!</button>
+        <button className="Login-button" onClick={this.sendRegistration}> Register Account</button>
+        <Link to="/login">
+          <button className="Login-button" > Login!</button>
         </Link>
       </div>
     );

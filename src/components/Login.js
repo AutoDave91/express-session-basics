@@ -1,27 +1,30 @@
 import React, { Component } from "react";
 import store, { LOG_IN_USERNAME, LOG_IN_PASSWORD } from "../store";
 import { Link } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
       username: store.getState().username,
-      password: store.getState().password
+      password: store.getState().password,
+      user: {}
     };
-    this.sendLogin = this.sendLogin.bind(this)
-    this.handlePassword = this.handlePassword.bind(this)
-    this.handleUserName = this.handleUserName.bind(this)
+    this.sendLogin = this.sendLogin.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
+    this.handleUserName = this.handleUserName.bind(this);
   }
 
   componentDidMount() {
-
-
-    store.subscribe(() => this.setState({ username: store.getState().username, password: store.getState().password}) );
+    store.subscribe(() =>
+      this.setState({
+        username: store.getState().username,
+        password: store.getState().password
+      })
+    );
   }
 
- 
   handleUserName(e) {
     let action = {
       type: LOG_IN_USERNAME,
@@ -38,20 +41,29 @@ class Login extends Component {
     store.dispatch(action);
   }
 
-  sendLogin(){
-      console.log(this.state.username)
-      console.log(this.state.password)
+  sendLogin() {
+    axios
+      .post("/auth/chocolate/login", {
+        username: this.state.username,
+        password: this.state.password
+      })
+      .then(response => {
+        if (response.data) {
+          alert("Successful Login");
+          this.setState({ user: response.data });
+        }
+      })
+      .catch(()=>alert("Unsuccessful Login"));
   }
 
   render() {
-      
+    console.log(this.state.user);
     return (
       <div className="LOGIN">
         <h3>Enter a name and submit to shop</h3>
-        
-        <span className="LOGIN-username-span">
 
-        {/* Enter USERNAME */}
+        <span className="LOGIN-username-span">
+          {/* Enter USERNAME */}
           <h3 id="h3-username">Username: </h3>
           <input
             type="text"
@@ -60,8 +72,7 @@ class Login extends Component {
           />
         </span>
         <span className="LOGIN-username-span">
-
-         {/* Enter PASSWORD */}
+          {/* Enter PASSWORD */}
           <h3 id="h3-username">Password: </h3>
           <input
             type="password"
@@ -70,8 +81,14 @@ class Login extends Component {
           />
         </span>
         {/* <h2> {this.state.login}</h2> */}
+
+        <button className="Login-button" onClick={this.sendLogin}>
+          {" "}
+          Login
+        </button>
+
         <Link to="/shop">
-          <button className="Login-button" onClick={this.sendLogin}> Shop!</button>
+          <button className="Login-button"> Shop!</button>
         </Link>
       </div>
     );

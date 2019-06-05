@@ -19,7 +19,7 @@ export const INCREASE_TOTAL = "INCREASE_TOTAL"
 ///reducer
 
 function reducer(state = initialState, action) {
-    console.log(state)
+    // console.log(state)
   switch (action.type) {
 
     case LOG_IN_USERNAME:
